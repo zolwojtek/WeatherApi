@@ -1,6 +1,11 @@
+using Quartz;
+using Quartz.Impl;
+using Quartz.Spi;
 using WeatherApi.Api;
 using WeatherApi.Api.BackgroundTasks;
 using WeatherApi.Api.Data;
+using WeatherApi.Api.Jobs;
+using WeatherApi.Api.Schedulers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +14,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IWeatherData, WeatherData>();
-builder.Services.AddHostedService<DataProviderBackgroundService>();
-builder.Services.AddSingleton<IWorker, Worker>();
+//builder.Services.AddHostedService<DataProviderBackgroundService>();
+//builder.Services.AddSingleton<IWorker, Worker>();
+
+// Add Quartz services
+builder.Services.AddHostedService<HostedService>();
+builder.Services.AddSingleton<IJobFactory, SingletonJobFactory>();
+builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
+// Add our job
+builder.Services.AddSingleton<DataProviderJob>();
+builder.Services.AddSingleton(new JobSchedule(
+    jobType: typeof(DataProviderJob),
+    cronExpression: "0 0/5 * 1/1 * ? *")); // run every 5 min
 
 
 var app = builder.Build();
