@@ -1,4 +1,5 @@
 using WeatherApi.Api;
+using WeatherApi.Api.BackgroundTasks;
 using WeatherApi.Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IWeatherData, WeatherData>();
+builder.Services.AddHostedService<DataProviderBackgroundService>();
+builder.Services.AddSingleton<IWorker, Worker>();
+
 
 var app = builder.Build();
 
