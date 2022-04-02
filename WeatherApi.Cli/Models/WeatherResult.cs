@@ -4,6 +4,6 @@ namespace WeatherApi.Cli.Models
 {
     public record WeatherResult
     {
-        public Celcius AverageTemperature { get; init; }
+        public Celcius AverageCelciusTemperature { get; init; }
     }
 }

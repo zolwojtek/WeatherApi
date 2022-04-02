@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WeatherApi.Cli.Models
 {
-    public record CityWeatherSearchResult
+    public record CityWeatherResult
     {
         public WeatherResult Weather { get; init; }
     }

@@ -8,6 +8,11 @@ namespace WeatherApi.Cli.Models
 {
     public record CityWeatherSearchRequest
     {
-        public string CityName { get; init; }
+        public CityWeatherSearchRequest(string cityName)
+        {
+            CityName = cityName;
+        }
+
+        public string CityName { get; }
     }
 }

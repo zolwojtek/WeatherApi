@@ -19,7 +19,7 @@ var app = serviceProvider.GetRequiredService<WeatherApplication>();
 await app.RunAsync(args);
 
 //var client = serviceProvider.GetRequiredService<IExternalWeatherApi>();
-//var response = await client.SearchByCityName(
+//var response = await client.SearchByCityNameAsync(
 //    new ListonicTask_WebApi.CityWeatherRequest
 //    {
 //        CityName = "Warsaw",

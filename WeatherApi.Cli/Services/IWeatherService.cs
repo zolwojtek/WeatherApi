@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OneOf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,6 @@ namespace WeatherApi.Cli.Services
 {
     public interface IWeatherService
     {
-        Task<CityWeatherSearchResult> SearchByCityNameAsync(CityWeatherSearchRequest request);
+        Task<OneOf<CityWeatherResult, CityWeatherSearchError>> SearchByCityNameAsync(CityWeatherSearchRequest request);
     }
 }
