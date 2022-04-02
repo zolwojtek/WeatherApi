@@ -27,12 +27,21 @@ namespace WeatherApi.Api.Schedulers
             Scheduler = await _schedulerFactory.GetScheduler(cancellationToken);
             Scheduler.JobFactory = _jobFactory;
 
+            
+
             foreach (var jobSchedule in _jobSchedules)
             {
                 var job = CreateJob(jobSchedule);
+
+
                 _logger.LogInformation("Created scheduled job: {}.", jobSchedule.ToString());
                 var trigger = CreateTrigger(jobSchedule);
                 await Scheduler.ScheduleJob(job, trigger, cancellationToken);
+
+                Scheduler.TriggerJob(new JobKey(jobSchedule.JobType.FullName), cancellationToken).Wait(cancellationToken);
+                //var oneTimeJob = CreateOneTimeJob(jobSchedule);
+                //var oneTimeTrigger = CreateOneTimeTrigger(jobSchedule);
+                //await Scheduler.ScheduleJob(oneTimeJob, oneTimeTrigger, cancellationToken);
             }
             await Scheduler.Start(cancellationToken);
         }
@@ -59,6 +68,24 @@ namespace WeatherApi.Api.Schedulers
                 .WithIdentity($"{schedule.JobType.FullName}.trigger")
                 .WithCronSchedule(schedule.CronExpression)
                 .WithDescription(schedule.CronExpression)
+                .Build();
+        }
+
+        private static IJobDetail CreateOneTimeJob(JobSchedule schedule)
+        {
+            var jobType = schedule.JobType;
+            return JobBuilder
+                .Create(jobType)
+                .WithIdentity($"{jobType.FullName}.onetime")
+                .WithDescription($"{jobType.Name}.onetime")
+                .Build();
+        }
+
+        private static ITrigger CreateOneTimeTrigger(JobSchedule schedule)
+        {
+            return TriggerBuilder
+                .Create()
+                .WithIdentity($"{schedule.JobType.FullName}.onetime.trigger")
                 .StartNow()
                 .Build();
         }

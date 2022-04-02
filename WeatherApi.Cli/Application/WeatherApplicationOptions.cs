@@ -1,6 +1,6 @@
 ﻿using CommandLine;
 
-namespace WeatherApi.Cli
+namespace WeatherApi.Cli.Application
 {
     public class WeatherApplicationOptions
     {

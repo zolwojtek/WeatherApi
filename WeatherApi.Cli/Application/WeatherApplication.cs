@@ -1,16 +1,11 @@
 ﻿using CommandLine;
 using OneOf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 using WeatherApi.Cli.Models;
 using WeatherApi.Cli.Output;
 using WeatherApi.Cli.Services;
 
-namespace WeatherApi.Cli
+namespace WeatherApi.Cli.Application
 {
     public class WeatherApplication
     {

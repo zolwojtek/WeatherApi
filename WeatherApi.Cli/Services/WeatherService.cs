@@ -1,11 +1,6 @@
 ﻿using FluentValidation;
-using ListonicTask_WebApi;
 using OneOf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WeatherApi.Cli.Api.Requests;
 using WeatherApi.Cli.Mapping;
 using WeatherApi.Cli.Models;
 
@@ -31,7 +26,7 @@ namespace WeatherApi.Cli.Services
                 return new CityWeatherSearchError(errorMessages);
             }
 
-            var cityWeatherRequest = new CityWeatherRequest()
+            var cityWeatherRequest = new CityWeatherRequest()//TO-DO extract to request factory
             {
                 CityName = request.CityName,
                 CurrentWeatherConditions = "no",

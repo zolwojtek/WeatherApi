@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace ListonicTask_WebApi.Api.Responses
+namespace WeatherApi.Cli.Api.Responses
 {
     public record class WeatherResponse
     {

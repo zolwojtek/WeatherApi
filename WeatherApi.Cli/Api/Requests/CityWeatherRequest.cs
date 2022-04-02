@@ -1,4 +1,4 @@
-﻿namespace ListonicTask_WebApi
+﻿namespace WeatherApi.Cli.Api.Requests
 {
     public record CityWeatherRequest
     {

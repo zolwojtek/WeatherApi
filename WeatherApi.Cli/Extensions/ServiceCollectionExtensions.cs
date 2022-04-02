@@ -1,19 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Refit;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WeatherApi.Cli.Output;
-using WeatherApi.Cli.Services;
-using FluentValidation;
 using Polly;
+using Refit;
 using WeatherApi.Cli.Models;
+using WeatherApi.Cli.Services;
 using WeatherApi.Cli.Validators;
 
-namespace WeatherApi.Cli
+namespace WeatherApi.Cli.Extensions
 {
     public static class ServiceCollectionExtensions
     {
@@ -23,12 +17,10 @@ namespace WeatherApi.Cli
             return serviceProvider;
         }
 
-        public static void ConfigureServices(this IServiceCollection services, IConfigurationRoot configuration)
+        public static void ConfigureWeatherServices(this IServiceCollection services, IConfigurationRoot configuration)
         {
-            services.AddSingleton<WeatherApplication>();
-            services.AddSingleton<IConsoleWriter, ConsoleWriter>();
             services.AddSingleton<IWeatherService, WeatherService>();
-            services.AddScoped<IValidator<CityWeatherSearchRequest>, CityWeatherSearchRequestValidator>();
+            services.AddSingleton<IValidator<CityWeatherSearchRequest>, CityWeatherSearchRequestValidator>();
             services.AddRefitClient<IExternalWeatherApi>()
                 .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
                 {
@@ -40,6 +32,8 @@ namespace WeatherApi.Cli
                 {
                     httpClient.BaseAddress = new Uri(configuration["ExternalWeatherApi:BaseAddress"]);
                 });
+
+
         }
     }
 }

@@ -1,16 +1,19 @@
 ﻿
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Refit;
-using System.Text.Json;
-using WeatherApi.Cli;
+using WeatherApi.Cli.Application;
+using WeatherApi.Cli.Extensions;
+using WeatherApi.Cli.Output;
 
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
     .Build();
 
 var services = new ServiceCollection();
-services.ConfigureServices(configuration);
+services.AddSingleton<WeatherApplication>();
+services.AddSingleton<IConsoleWriter, ConsoleWriter>();
+
+services.ConfigureWeatherServices(configuration);
 
 var serviceProvider = services.GetServiceProvider(configuration);
 

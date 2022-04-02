@@ -1,6 +1,6 @@
-﻿using ListonicTask_WebApi;
-using ListonicTask_WebApi.Api.Responses;
-using Refit;
+﻿using Refit;
+using WeatherApi.Cli.Api.Requests;
+using WeatherApi.Cli.Api.Responses;
 
 public interface IExternalWeatherApi
 {
