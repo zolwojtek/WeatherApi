@@ -14,7 +14,7 @@ namespace WeatherApi.Api
             try
             {
                 var result = await weatherData.GetWeatherForCity(cityName);
-                if (result == null) return Results.NotFound();
+                if (result == null) return Results.NoContent();
                 return Results.Ok(result);
             }
             catch (Exception ex)

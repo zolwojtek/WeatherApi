@@ -34,7 +34,7 @@ builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 builder.Services.AddSingleton<DataProviderJob>();
 builder.Services.AddSingleton(new JobSchedule(
     jobType: typeof(DataProviderJob),
-    cronExpression: "0 0/3 * 1/1 * ? *")); // run every 5 min
+    cronExpression: "0 0/1 * 1/1 * ? *")); // run every 5 min
 
 builder.Services.AddSingleton<IWeatherService, WeatherService>();
 builder.Services.AddSingleton<IValidator<CityWeatherSearchRequest>, CityWeatherSearchRequestValidator>();
