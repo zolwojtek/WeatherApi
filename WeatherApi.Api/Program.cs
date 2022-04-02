@@ -4,15 +4,11 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
 using Refit;
-using System.Reflection;
 using WeatherApi.Api;
-using WeatherApi.Api.BackgroundTasks;
 using WeatherApi.Api.Data;
 using WeatherApi.Api.Jobs;
 using WeatherApi.Api.Schedulers;
-using WeatherApi.Cli;
 using WeatherApi.Cli.Models;
-using WeatherApi.Cli.Output;
 using WeatherApi.Cli.Services;
 using WeatherApi.Cli.Validators;
 
