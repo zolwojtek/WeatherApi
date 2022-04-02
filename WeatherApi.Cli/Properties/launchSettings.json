@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WeatherApi.Cli": {
+      "commandName": "Project",
+      "commandLineArgs": "-n Warsaw"
+    }
+  }
+}
