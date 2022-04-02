@@ -1,11 +1,20 @@
+using FluentValidation;
+using Polly;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;
+using Refit;
+using System.Reflection;
 using WeatherApi.Api;
 using WeatherApi.Api.BackgroundTasks;
 using WeatherApi.Api.Data;
 using WeatherApi.Api.Jobs;
 using WeatherApi.Api.Schedulers;
+using WeatherApi.Cli;
+using WeatherApi.Cli.Models;
+using WeatherApi.Cli.Output;
+using WeatherApi.Cli.Services;
+using WeatherApi.Cli.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +34,21 @@ builder.Services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
 builder.Services.AddSingleton<DataProviderJob>();
 builder.Services.AddSingleton(new JobSchedule(
     jobType: typeof(DataProviderJob),
-    cronExpression: "0 0/5 * 1/1 * ? *")); // run every 5 min
+    cronExpression: "0 0/3 * 1/1 * ? *")); // run every 5 min
 
+builder.Services.AddSingleton<IWeatherService, WeatherService>();
+builder.Services.AddSingleton<IValidator<CityWeatherSearchRequest>, CityWeatherSearchRequestValidator>();
+builder.Services.AddRefitClient<IExternalWeatherApi>()
+    .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
+    {
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(5),
+                    TimeSpan.FromSeconds(10)
+    }))
+    .ConfigureHttpClient(httpClient =>
+    {
+        httpClient.BaseAddress = new Uri(builder.Configuration["ExternalWeatherApi:BaseAddress"]);
+    });
 
 var app = builder.Build();
 

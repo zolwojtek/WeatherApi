@@ -59,6 +59,7 @@ namespace WeatherApi.Api.Schedulers
                 .WithIdentity($"{schedule.JobType.FullName}.trigger")
                 .WithCronSchedule(schedule.CronExpression)
                 .WithDescription(schedule.CronExpression)
+                .StartNow()
                 .Build();
         }
     }

@@ -10,6 +10,8 @@ using WeatherApi.Cli.Output;
 using WeatherApi.Cli.Services;
 using FluentValidation;
 using Polly;
+using WeatherApi.Cli.Models;
+using WeatherApi.Cli.Validators;
 
 namespace WeatherApi.Cli
 {
@@ -26,7 +28,7 @@ namespace WeatherApi.Cli
             services.AddSingleton<WeatherApplication>();
             services.AddSingleton<IConsoleWriter, ConsoleWriter>();
             services.AddSingleton<IWeatherService, WeatherService>();
-            services.AddValidatorsFromAssemblyContaining<Program>();
+            services.AddScoped<IValidator<CityWeatherSearchRequest>, CityWeatherSearchRequestValidator>();
             services.AddRefitClient<IExternalWeatherApi>()
                 .AddTransientHttpErrorPolicy(builder => builder.WaitAndRetryAsync(new[]
                 {
