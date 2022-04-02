@@ -33,7 +33,6 @@ namespace WeatherApi.Cli
                     var result = await _weatherService.SearchByCityNameAsync(searchRequest);
 
                     HandleSearchResult(result);
-
                 });
         }
 
